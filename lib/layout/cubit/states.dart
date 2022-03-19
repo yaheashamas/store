@@ -8,6 +8,7 @@ class ShopInitialState extends ShopState {}
 
 //change current index
 class ShopChangeCurrentIndexState extends ShopState {}
+class ShopScreenChangeCurrentIndexState extends ShopState {}
 
 //change state icon favorite
 class ShopStateFavoriteState extends ShopState {}
@@ -42,3 +43,11 @@ class shopProfileSuccessState extends ShopState {
 }
 
 class shopProfileErrorState extends ShopState {}
+
+//update info profile
+class shopUpdateProfileSuccessState extends ShopState {
+  LoginModel? loginModel;
+  shopUpdateProfileSuccessState(this.loginModel);
+}
+
+class shopUpdateProfileErrorState extends ShopState {}

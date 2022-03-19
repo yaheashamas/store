@@ -8,7 +8,10 @@ import 'package:store/models/favorite_model.dart';
 import 'package:store/models/favorites_model.dart';
 import 'package:store/models/home_model.dart';
 import 'package:store/models/login_model.dart';
+import 'package:store/modules/shop_login/login.dart';
 import 'package:store/modules/shop_products/Product.dart';
+import 'package:store/shared/components/components.dart';
+import 'package:store/shared/network/local/cashe_helper.dart';
 
 import '../../modules/shop_categores/Category.dart';
 import '../../modules/shop_favorates/Favorate.dart';
@@ -21,13 +24,13 @@ class ShopCubit extends Cubit<ShopState> {
   ShopCubit() : super(ShopInitialState());
 
   static ShopCubit get(context) => BlocProvider.of(context);
-
   //models
   HomeModel? homeModel;
   FavoriteModel? favoriteModel;
   CategoryModel? categoryModel;
   FavoritesModel? favoritesModel;
   UserModel? userModel;
+  LoginModel? loginModel;
 
   //var
   int currentIndex = 0;
@@ -43,6 +46,10 @@ class ShopCubit extends Cubit<ShopState> {
   //function
   void changeCurrentIndex(int index) {
     currentIndex = index;
+    emit(ShopChangeCurrentIndexState());
+  }
+
+  void changeScreen() {
     if (currentIndex == 1) {
       getCategory();
     } else if (currentIndex == 2) {
@@ -50,7 +57,7 @@ class ShopCubit extends Cubit<ShopState> {
     } else if (currentIndex == 3) {
       getInfoProfile();
     }
-    emit(ShopChangeCurrentIndexState());
+    emit(ShopScreenChangeCurrentIndexState());
   }
 
   getDataHome() {
@@ -89,7 +96,7 @@ class ShopCubit extends Cubit<ShopState> {
     mapIsFavorite[idProduct] = !mapIsFavorite[idProduct];
     emit(ShopStateFavoriteState());
 
-    DioHelper.putData(
+    DioHelper.postData(
       url: FAVORITES,
       token: token,
       data: {
@@ -130,6 +137,35 @@ class ShopCubit extends Cubit<ShopState> {
       emit(shopProfileSuccessState(userModel));
     }).catchError((error) {
       emit(shopProfileErrorState());
+    });
+  }
+
+  updateInfoUser({
+    required String name,
+    required String email,
+    required String phone,
+  }) {
+    DioHelper.putData(
+      url: UPDATE,
+      data: {"name": name, "email": email, "phone": phone},
+      token: token,
+    ).then((value) {
+      loginModel = LoginModel.fromJson(value.data);
+      emit(shopUpdateProfileSuccessState(loginModel));
+    }).catchError((error) {
+      emit(shopUpdateProfileErrorState());
+    });
+  }
+
+  void logOut(context) {
+    print("remove token => logout => ${token}");
+    CacheHelper.removeData(key: token).then((value) {
+      token = "";
+      navigateToRemove(
+        context: context,
+        Widget: LoginShop(),
+      );
+      currentIndex = 0;
     });
   }
 }

@@ -14,6 +14,7 @@ class ShopLayout extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = ShopCubit.get(context);
+        print("cubit page currentIndex=> ${cubit.currentIndex}");
         return Scaffold(
           appBar: AppBar(
             title: Text("salla"),
@@ -35,6 +36,7 @@ class ShopLayout extends StatelessWidget {
             currentIndex: cubit.currentIndex,
             onTap: (value) {
               cubit.changeCurrentIndex(value);
+              cubit.changeScreen();
             },
             items: [
               BottomNavigationBarItem(

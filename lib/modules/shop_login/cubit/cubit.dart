@@ -1,9 +1,8 @@
-import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store/modules/shop_login/cubit/states.dart';
-
+import 'package:store/shared/components/constants.dart';
+import 'package:store/shared/network/local/cashe_helper.dart';
 import '../../../models/login_model.dart';
 import '../../../shared/endPoint/EndPont.dart';
 import '../../../shared/network/remote/dio_helper.dart';
@@ -26,13 +25,13 @@ class ShopLoginCubit extends Cubit<ShopLoginState> {
   }) {
     emit(ShopLoginLoadingState());
 
-    DioHelper.putData(
+    DioHelper.postData(
       url: LOGIN,
       data: {
         "email": email,
         "password": password,
       },
-    ).then((value) {
+    ).then((value){
       loginModel = LoginModel.fromJson(value.data);
       emit(ShopLoginSuccessState(loginModel));
     }).catchError((error) {

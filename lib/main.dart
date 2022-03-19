@@ -7,6 +7,8 @@ import 'package:store/shared/bloc_observer.dart';
 import 'package:store/shared/components/constants.dart';
 import 'package:store/shared/network/local/cashe_helper.dart';
 import 'package:store/shared/network/remote/dio_helper.dart';
+import 'package:store/shared/theme/themeDark.dart';
+import 'package:store/shared/theme/themeLight.dart';
 import 'modules/onBoarding/OnBoarding.dart';
 import 'modules/shop_login/login.dart';
 
@@ -25,7 +27,10 @@ void main(List<String> args) async {
   //onboarding
   bool? onBoarding = CacheHelper.getBool(key: "onBoarding");
   //token
-  token = CacheHelper.getString(key: "token");
+  token = CacheHelper.getString(key: "token") ?? "";
+  
+  print("main =>token after =>${token}");
+
 
   //where i go from any widget ???
   late Widget widget;
@@ -55,10 +60,6 @@ class MyApp extends StatelessWidget {
     required this.widget,
   });
 
-  get themeLight => null;
-
-  get themeDark => null;
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -70,7 +71,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: themeLight,
-        darkTheme: themeDark,
+        darkTheme: themeLight,
         home: widget,
       ),
     );

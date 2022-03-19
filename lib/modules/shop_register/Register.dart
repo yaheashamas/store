@@ -4,6 +4,7 @@ import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:store/layout/ShopLayout.dart';
 import 'package:store/modules/shop_register/cubit/cubit.dart';
 import 'package:store/modules/shop_register/cubit/states.dart';
+import 'package:store/shared/components/constants.dart';
 import '../../../shared/components/components.dart';
 import '../../../shared/network/local/cashe_helper.dart';
 
@@ -27,6 +28,7 @@ class Register extends StatelessWidget {
                 key: "token",
                 value: state.loginModel.Data!.token,
               ).then((value) {
+                token = state.loginModel.Data!.token;
                 defaultToast(
                   message: state.loginModel.message,
                   colorsToaster: colorsToast.SUCCESS,

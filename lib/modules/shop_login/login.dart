@@ -10,8 +10,6 @@ import '../../shared/components/constants.dart';
 import '../../shared/network/local/cashe_helper.dart';
 import '../shop_register/Register.dart';
 
-
-
 class LoginShop extends StatelessWidget {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
@@ -29,6 +27,8 @@ class LoginShop extends StatelessWidget {
                 key: "token",
                 value: state.loginModel.Data!.token,
               ).then((value) {
+                token = state.loginModel.Data!.token;
+                print("token after login ${token}");
                 defaultToast(
                   message: state.loginModel.message,
                   colorsToaster: colorsToast.SUCCESS,
@@ -44,7 +44,6 @@ class LoginShop extends StatelessWidget {
                 colorsToaster: colorsToast.ERROR,
               );
             }
-            print("new token in login ${CacheHelper.getString(key: "token")}");
           }
           if (state is ShopLoginErrorState) {
             print(state.error);

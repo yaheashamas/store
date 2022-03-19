@@ -68,7 +68,6 @@ Widget defaultTextFormField({
       obscureText: isSecure,
     );
 
-
 Widget defaultIconButton({
   VoidCallback? function,
   IconData? iconData,
@@ -80,7 +79,6 @@ Widget defaultIconButton({
     color: color,
   );
 }
-
 
 Widget defaultNews({
   String? image,
@@ -189,13 +187,9 @@ void navigateToRemove({
   required context,
   required Widget,
 }) =>
-    Navigator.pushAndRemoveUntil<dynamic>(
-      context,
-      MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => Widget,
-      ),
-      (route) => false, 
-    );
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => Widget),
+        (Route<dynamic> route) => false);
 
 //toast
 enum colorsToast {
